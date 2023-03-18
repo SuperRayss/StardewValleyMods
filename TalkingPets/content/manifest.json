@@ -1,0 +1,12 @@
+{
+  "Name": "Talking Pets Content Pack",
+  "Author": "SuperRayss",
+  "Version": "0.1.0",
+  "Description": "BARK BARK RUFF RUFF MEEEEOOOOWWWW content",
+  "UniqueID": "SuperRayss.TalkingPetsContentPack",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": [],
+  "ContentPackFor": {
+    "UniqueID": "Pathoschild.ContentPatcher"
+  }
+}

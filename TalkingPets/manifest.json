@@ -1,0 +1,10 @@
+{
+  "Name": "Talking Pets",
+  "Author": "SuperRayss",
+  "Version": "0.3.0",
+  "Description": "BARK BARK RUFF RUFF MEEEEOOOOWWWW",
+  "UniqueID": "SuperRayss.TalkingPets",
+  "EntryDll": "TalkingPets.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
+}

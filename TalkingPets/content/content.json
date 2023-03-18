@@ -1,0 +1,38 @@
+{
+  "Format": "1.6",
+  "Changes": [
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/Cat",
+      "FromFile": "assets/dialogue_cat.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/Dog",
+      "FromFile": "assets/dialogue_dog.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/Cat",
+      "FromFile": "assets/dialogue_both.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/Dog",
+      "FromFile": "assets/dialogue_both.json"
+    },
+    {
+      "LogName": "Gift Tastes",
+      "Action": "EditData",
+      "Target": "Data/NPCGiftTastes",
+      "Entries": {
+        "Cat": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "Dog": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/"
+      }
+    }
+  ]
+}

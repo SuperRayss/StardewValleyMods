@@ -1,0 +1,10 @@
+{
+  "Name": "Pierre Story",
+  "Author": "SuperRayss",
+  "Version": "0.1.0",
+  "Description": "The story of a shopkeeper",
+  "UniqueID": "SuperRayss.PierreStory",
+  "EntryDll": "PierreStory.dll",
+  "MinimumApiVersion": "3.0.0",
+  "UpdateKeys": []
+}
