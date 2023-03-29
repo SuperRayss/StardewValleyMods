@@ -1,5 +1,5 @@
 {
-  "Format": "1.6",
+  "Format": "1.28.0",
   "Changes": [
     {
       "LogName": "Dialogue",
@@ -12,18 +12,6 @@
       "Action": "Load",
       "Target": "Characters/Dialogue/Dog",
       "FromFile": "assets/dialogue_dog.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/Cat",
-      "FromFile": "assets/dialogue_both.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/Dog",
-      "FromFile": "assets/dialogue_both.json"
     },
     {
       "LogName": "Gift Tastes",
