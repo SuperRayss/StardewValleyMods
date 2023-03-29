@@ -7,6 +7,9 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Characters;
+using HarmonyLib;
+using System.Linq;
+using System.Reflection;
 
 namespace TalkingPets
 {
@@ -16,13 +19,14 @@ namespace TalkingPets
         private List<Pet> talkingPets;
         private List<Tuple<GameLocation, Vector2>> talkingPetLocations;
 
-        private Stack<string> dialogues = new();
-
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
             helper.Events.GameLoop.DayStarted += OnDayStarted;
             helper.Events.GameLoop.Saving += OnSaving;
+            NPCPatches.Initialize(Monitor);
+            var harmony = new Harmony(ModManifest.UniqueID);
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
         private void OnSaving(object sender, SavingEventArgs e)
@@ -59,12 +63,18 @@ namespace TalkingPets
                     talkingPets.Add(new TalkingCat());
                 }
                 originalPets[i].DeepCloneTo(talkingPets[i]);
+                if (originalPets[i] is Dog)
+                {
+                    talkingPets[i].Name = "Dog";
+                }
+                else if (originalPets[i] is Cat)
+                {
+                    talkingPets[i].Name = "Cat";
+                }
                 talkingPetLocations.Add(new Tuple<GameLocation, Vector2>(
                     originalPets[i].currentLocation, originalPets[i].getTileLocation()
                 ));
             }
-            if (talkingPets.Count > 0) 
-                AddDialogue();
         }
 
         private void OnDayStarted(object sender, DayStartedEventArgs e)
@@ -79,19 +89,7 @@ namespace TalkingPets
             }
         }
 
-        private void AddDialogue()
-        {
-            int counter = 0;
-            while (dialogues.Count > 0)
-            {
-                talkingPets[counter].CurrentDialogue.Push(new Dialogue(dialogues.Pop(), talkingPets[counter]));
-                counter++;
-                if (counter == talkingPets.Count)
-                    counter = 0;
-            }
-        }
-
-        internal List<Pet> GetAllOriginalPets()
+        internal static List<Pet> GetAllOriginalPets()
         {
             List<Pet> pets = new();
             foreach (NPC i in Game1.getFarm().characters)
