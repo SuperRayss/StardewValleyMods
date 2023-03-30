@@ -1,10 +1,16 @@
 {
   "Name": "Talking Pets",
   "Author": "SuperRayss",
-  "Version": "0.4.0",
+  "Version": "0.5.0",
   "Description": "BARK BARK RUFF RUFF MEEEEOOOOWWWW",
   "UniqueID": "SuperRayss.TalkingPets",
   "EntryDll": "TalkingPets.dll",
   "MinimumApiVersion": "3.0.0",
-  "UpdateKeys": []
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "Pathoschild.ContentPatcher",
+      "IsRequired": true
+    }
+  ]
 }

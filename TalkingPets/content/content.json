@@ -4,22 +4,69 @@
     {
       "LogName": "Dialogue",
       "Action": "Load",
-      "Target": "Characters/Dialogue/Cat",
+      "Target": "Characters/Dialogue/DogFallback",
+      "FromFile": "assets/dialogue_dog.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/CatFallback",
       "FromFile": "assets/dialogue_cat.json"
     },
     {
       "LogName": "Dialogue",
       "Action": "Load",
-      "Target": "Characters/Dialogue/Dog",
-      "FromFile": "assets/dialogue_dog.json"
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=0}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=0}}.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=1}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=1}}.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=2}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=2}}.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=3}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=3}}.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=4}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=4}}.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=5}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=5}}.json"
+    },
+    {
+      "LogName": "Dialogue",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=6}}",
+      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=6}}.json"
     },
     {
       "LogName": "Gift Tastes",
       "Action": "EditData",
       "Target": "Data/NPCGiftTastes",
       "Entries": {
-        "Cat": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "Dog": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/"
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=0}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=1}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=2}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=3}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=4}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=5}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "{{SuperRayss.TalkingPets/PetNames |valueAt=6}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/"
       }
     }
   ]

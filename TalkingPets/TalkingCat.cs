@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content;
 using StardewValley;
 using StardewValley.Characters;
-using StardewValley.BellsAndWhistles;
-using Netcode;
-using StardewValley.Menus;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace TalkingPets
 {

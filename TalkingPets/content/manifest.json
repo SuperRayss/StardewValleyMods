@@ -8,5 +8,11 @@
   "UpdateKeys": [],
   "ContentPackFor": {
     "UniqueID": "Pathoschild.ContentPatcher"
-  }
+  },
+  "Dependencies": [
+    {
+      "UniqueID": "SuperRayss.TalkingPets",
+      "IsRequired": true
+    }
+  ]
 }

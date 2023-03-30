@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Content;
 using StardewValley;
 using StardewValley.Characters;
-using StardewValley.BellsAndWhistles;
-using Netcode;
-using StardewValley.Menus;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.Monsters;
 
 namespace TalkingPets
 {
-    // TODO: Find why a dialogue box wants to open when there's no more currentDialogue
     public class TalkingDog : Dog
     {
 
@@ -56,7 +48,7 @@ namespace TalkingPets
                         Game1.drawObjectDialogue(Game1.parseText(Game1.content.LoadString("Strings\\StringsFromCSFiles:NPC.cs.3981", this.displayName)));
                         return;
                     }
-                    this.receiveGift(who.ActiveObject, who, true, 1f, true);
+                    this.receiveGift(who.ActiveObject, who);
                     who.reduceActiveItemByOne();
                     who.completelyStopAnimatingOrDoingAction();
                     base.faceTowardFarmerForPeriod(4000, 3, false, who);
@@ -68,6 +60,9 @@ namespace TalkingPets
             }
         }
 
+        // TODO: Currently overriding because I want to use displayName instead of base.Name, but figure out if this can be resolved
+        // It could be if I could just patch in dialogue for their displayName instead of "Dog" and "Cat"
+        // https://stardewcommunitywiki.com/Modding:Modder_Guide/APIs/Content_Packs#Content_pack_API
         public new void receiveGift(StardewValley.Object o, Farmer giver, bool updateGiftLimitInfo = true, float friendshipChangeMultiplier = 1f, bool showResponse = true)
         {
             Game1.NPCGiftTastes.TryGetValue(this.Name, out var value);
