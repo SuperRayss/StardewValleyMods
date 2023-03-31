@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Force.DeepCloner;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -8,124 +7,137 @@ using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Characters;
 using HarmonyLib;
-using System.Linq;
 using System.Reflection;
-using System.IO;
-using System.Threading;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace TalkingPets
 {
     internal sealed class ModEntry : Mod
     {
-        private Dictionary<string, string> catDialogues; // TODO: Load in dialogues from assets/dialogue_x.json
-        private Dictionary<string, string> dogDialogues;
-        private Dictionary<string, string> bothDialogues;
-        private List<string> petNames;
-/*        private List<string> petTypes;
-*/
-
+        private Dictionary<string, Dictionary<string, string>> petDialogues = null;
+        private List<string> petNames = null;
 
         // TODO: There are currently bugs:
         // 1. Gift tastes seem out of whack for some types
         public override void Entry(IModHelper helper)
         {
             helper.Events.GameLoop.GameLaunched += OnGameLaunched;
-            helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
+            helper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
+            helper.Events.Content.AssetRequested += OnAssetRequested;
             NPCPatches.Initialize(Monitor);
             var harmony = new Harmony(ModManifest.UniqueID);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            /*            IContentPack temp = this.Helper.ContentPacks.CreateTemporary(
-                           directoryPath: Path.Combine(this.Helper.DirectoryPath, "content-pack"),
-                           id: Guid.NewGuid().ToString("N"),
-                           name: "temporary Talking Pets Content Pack",
-                           description: "BARK BARK RUFF RUFF MEEEEOOOOWWWW content",
-                           author: "SuperRayss",
-                           version: new SemanticVersion(1, 0, 0)
-                        );
-                        foreach (IContentPack contentPack in Helper.ContentPacks.GetOwned())
-                        {
-                            if (contentPack.Manifest.UniqueID == "SuperRayss.TalkingPetsContentPack")
-                            {
-                                contentPack.DirectoryPath
-                                YourDataModel data = contentPack.ReadJsonFile<YourDataFile>("content.json");
-                                return;
-                            }
-                        }*/
         }
 
+        /// <inheritdoc cref="IContentEvents.AssetRequested"/>
+        /// <param name="sender">The event sender.</param>
+        /// <param name="e">The event data.</param>
+        private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
+        {
+            
+            if (!e.Name.StartsWith("Characters\\Dialogue\\Pet")) { return; }
+            string[] split = e.NameWithoutLocale.BaseName.Split("/");
+            string characterName = split[split.Length - 1].Trim();
+            if (petDialogues == null) {
+                LoadPetDialogues();
+            }
+            //Monitor.Log(characterName, LogLevel.Debug); // DEBUG
+            if (petDialogues.TryGetValue(characterName, out Dictionary<string, string> dialogue))
+            {
+                //Monitor.Log($"Trying to load dialogue for {characterName}", LogLevel.Debug); // DEBUG
+                e.LoadFrom(() => dialogue, AssetLoadPriority.Medium);
+                //Monitor.Log($"Loaded dialogue for {characterName}", LogLevel.Debug); // DEBUG
+            }
+
+        }
+        private void LoadPetDialogues()
+        {
+            //Monitor.Log($"Loading petDialogues", LogLevel.Debug); // DEBUG
+            petDialogues = new();
+            petNames = new();
+            List<Pet> pets = GetPetList();
+            Stack<Tuple<string, string>> catDialogues = new(); // TODO: Load in dialogues from assets/src/dialogue_x.json
+            catDialogues.Push(new("Mon", "THE FOG IS COMING but I sure do love being a cat on a nice Monday"));
+            catDialogues.Push(new("Tue", "THE FOG IS COMING but I sure do love being a cat on a nice Tuesday"));
+            catDialogues.Push(new("Wed", "THE FOG IS COMING but I sure do love being a cat on a nice Wednesday"));
+            catDialogues.Push(new("Thu", "THE FOG IS COMING but I sure do love being a cat on a nice Thursday"));
+            catDialogues.Push(new("Fri", "THE FOG IS COMING but I sure do love being a cat on a nice Friday"));
+            catDialogues.Push(new("Sat", "THE FOG IS COMING but I sure do love being a cat on a nice Saturday"));
+            catDialogues.Push(new("Sun", "THE FOG IS COMING but I sure do love being a cat on a nice Sunday"));
+            Stack<Tuple<string, string>> dogDialogues = new();
+            dogDialogues.Push(new("Mon", "THE FOG IS COMING but I sure do love being a dog on a nice Monday"));
+            dogDialogues.Push(new("Tue", "THE FOG IS COMING but I sure do love being a dog on a nice Tuesday"));
+            dogDialogues.Push(new("Wed", "THE FOG IS COMING but I sure do love being a dog on a nice Wednesday"));
+            dogDialogues.Push(new("Thu", "THE FOG IS COMING but I sure do love being a dog on a nice Thursday"));
+            dogDialogues.Push(new("Fri", "THE FOG IS COMING but I sure do love being a dog on a nice Friday"));
+            dogDialogues.Push(new("Sat", "THE FOG IS COMING but I sure do love being a dog on a nice Saturday"));
+            dogDialogues.Push(new("Sun", "THE FOG IS COMING but I sure do love being a dog on a nice Sunday"));
+            Stack<Tuple<string, string>> bothDialogues = new();
+            bothDialogues.Push(new("Mon", "THE FOG IS COMING... But on a Monday"));
+            bothDialogues.Push(new("Tue", "THE FOG IS COMING... But on a Tuesday"));
+            bothDialogues.Push(new("Wed", "THE FOG IS COMING... But on a Wednesday"));
+            bothDialogues.Push(new("Thu", "THE FOG IS COMING... But on a Thursday"));
+            bothDialogues.Push(new("Fri", "THE FOG IS COMING... But on a Friday"));
+            bothDialogues.Push(new("Sat", "THE FOG IS COMING... But on a Saturday"));
+            bothDialogues.Push(new("Sun", "THE FOG IS COMING... But on a Sunday"));
+            while (catDialogues.Count > 0 || dogDialogues.Count > 0 || bothDialogues.Count > 0)
+            {
+                // TODO: Make sure that repeated key conflicts don't result in a forever hangup
+                foreach (Pet pet in pets)
+                {
+                    string name = pet.Name.Trim();
+                    if (!petDialogues.ContainsKey(name)) {
+                        petDialogues.Add(name, new Dictionary<string, string>());
+                        petNames.Add(pet.Name);
+                    }
+                    if (pet is Cat && catDialogues.Count > 0)
+                    {
+                        var entry = catDialogues.Peek();
+                        if (petDialogues[name].TryAdd(entry.Item1, entry.Item2))
+                            catDialogues.Pop();
+                    }
+                    else if (pet is Dog && dogDialogues.Count > 0)
+                    {
+                        var entry = dogDialogues.Peek();
+                        if (petDialogues[name].TryAdd(entry.Item1, entry.Item2))
+                            dogDialogues.Pop();
+                    }
+                    else if (bothDialogues.Count > 0)
+                    {
+                        var entry = bothDialogues.Peek();
+                        if (petDialogues[name].TryAdd(entry.Item1, entry.Item2))
+                            bothDialogues.Pop();
+                    }
+                }
+            }
+
+            
+        }
+
+
+        // <NPC xsi:type="Cat"><name>GUY </name>
+        // <NPC xsi:type="Dog"><name>REAL</name>
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
             var api = this.Helper.ModRegistry.GetApi<IContentPatcherAPI>("Pathoschild.ContentPatcher");
             api.RegisterToken(this.ModManifest, "PetNames", () =>
             {
-                if (petNames?.Count > 0) {
+                if (petNames?.Count > 0)
+                {
                     return petNames;
                 }
                 return null;
             });
-            // TODO: Address this problem where repeated values are ignored
-            // This is why it was saying there's no entries for 3 and 4, because it was 1 cat and 3 dogs, so it just saw 1 cat and 1 dog
-            // We need to use a custom token that uses key-value storage for name-type
-            // Actually we can fix this problem by going back to what I wanted to do originally, create a custom JSON for each indivual animal
-            // So long as I create the JSON here, it doesn't need to be loaded as a content pack, just referred to by token
-/*            api.RegisterToken(this.ModManifest, "PetTypes", () =>
-            {
-*//*                if (petTypes?.Count > 0 && petTypes.Count == petNames.Count) {
-                    Monitor.Log(String.Join(", ", petTypes), LogLevel.Debug);
-                    return petTypes;
-                }*//*
-
-                return new string[] { "dog", "dog", "dog", "dog" };
-
-            });*/
         }
 
-        private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
+        private void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
-            
-            petNames = GetPetNames();
-/*            petTypes = GetPetTypes();
-*//*            List<Pet> pets = BuildPetList();
-            if (pets.Count > 0)
-                CreateNamedJSON(pets);*/
+            petNames = null;
+            petDialogues = null;
         }
 
-        // TODO: Change this to feed in from JSON files
-        // Rotate the assignment of dialogue
-        // Build out new JSON files with the Character.Name of each pet to be loaded in via content pack API
-        private void CreateNamedJSON(List<Pet> pets)
-        {
-            // TODO: Optimize this terrible way of iterating through the dialogues
-            for (int i = 0, counter = 0; i < catDialogues.Count; i++) // For each dialogue, we're apending to a named JSON file for this cat
-            {
-                if (pets[counter] is Cat)
-                {
-                    // TODO: Append catDialogues[i] to pets[counter].Name JSON
-                }
-                counter++;
-                if (counter == pets.Count)
-                    counter = 0;
-            }
-            for (int i = 0, counter = 0; i < dogDialogues.Count; i++)
-            {
-                if (pets[counter] is Dog)
-                {
-                    // TODO: Append dogDialogues[i] to the pets[counter].Name JSON
-                }
-                counter++;
-                if (counter == pets.Count)
-                    counter = 0;
-            }
-            for (int i = 0, counter = 0; i < bothDialogues.Count; i++)
-            {
-                // TODO: Append bothDialogues[i] to pets[counter].Name JSON
-                counter++;
-                if (counter == pets.Count)
-                    counter = 0;
-            }
-        }
-
-        internal static List<Pet> BuildPetList()
+        internal static List<Pet> GetPetList()
         {
             List<Pet> pets = new();
             foreach (NPC i in Game1.getFarm().characters)
@@ -149,10 +161,10 @@ namespace TalkingPets
             }
             return pets;
         }
-
-        internal List<string> GetPetNames()
+/*
+        internal void LoadPetNames()
         {
-            List<string> petNames = new();
+            petNames = new();
             foreach (NPC i in Game1.getFarm().characters)
             {
                 if (i is Pet)
@@ -174,9 +186,8 @@ namespace TalkingPets
                     }
                 }
             }
-            return petNames;
         }
-
+*/
 /*        internal List<string> GetPetTypes()
         {
             List<string> petTypes = new();
@@ -204,5 +215,12 @@ namespace TalkingPets
             return petTypes;
         }
 */
+    }
+
+    public class DataModel
+    {
+        //public Dictionary<string, string> Entries = new Dictionary<string, string>();
+        public string test = "yes";
+
     }
 }

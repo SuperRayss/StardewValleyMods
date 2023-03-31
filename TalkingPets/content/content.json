@@ -2,58 +2,16 @@
   "Format": "1.28.0",
   "Changes": [
     {
-      "LogName": "Dialogue",
+      "LogName": "Dialogue c_fb",
       "Action": "Load",
-      "Target": "Characters/Dialogue/DogFallback",
-      "FromFile": "assets/dialogue_dog.json"
+      "Target": "Characters/Dialogue/Pet/cat_Fallback",
+      "FromFile": "assets/src/dialogue_cat.json"
     },
     {
-      "LogName": "Dialogue",
+      "LogName": "Dialogue d_fb",
       "Action": "Load",
-      "Target": "Characters/Dialogue/CatFallback",
-      "FromFile": "assets/dialogue_cat.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=0}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=0}}.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=1}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=1}}.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=2}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=2}}.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=3}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=3}}.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=4}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=4}}.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=5}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=5}}.json"
-    },
-    {
-      "LogName": "Dialogue",
-      "Action": "Load",
-      "Target": "Characters/Dialogue/{{SuperRayss.TalkingPets/PetNames |valueAt=6}}",
-      "FromFile": "assets/dialogue_{{SuperRayss.TalkingPets/PetNames |valueAt=6}}.json"
+      "Target": "Characters/Dialogue/Pet/dog_Fallback",
+      "FromFile": "assets/src/dialogue_dog.json"
     },
     {
       "LogName": "Gift Tastes",

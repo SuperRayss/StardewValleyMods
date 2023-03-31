@@ -29,7 +29,8 @@ namespace TalkingPets
 #if DEBUG
                 //Monitor.Log($"Patching Dialogue_get:\n", LogLevel.Debug); // DEBUG
 #endif
-                string dialogue_file = "Characters\\Dialogue\\" + __instance.GetDialogueSheetName();
+                string dialogue_file_prefix = "Characters\\Dialogue\\Pet\\";
+                string dialogue_file = dialogue_file_prefix + __instance.GetDialogueSheetName();
                 if (NPC.invalidDialogueFiles.Contains(dialogue_file))
                 {
                     __result = new Dictionary<string, string>();
@@ -44,8 +45,9 @@ namespace TalkingPets
                     //Monitor.Log($"Failed in Dialogue_get:\n{ex}", LogLevel.Error); // DEBUG
 #endif
                     NPC.invalidDialogueFiles.Add(dialogue_file);
-                    if (__instance is Dog) __result = LoadDialogue("Characters\\Dialogue\\DogFallback");
-                    else if (__instance is Cat) __result = LoadDialogue("Characters\\Dialogue\\CatFallback");
+                    if (__instance is Cat) dialogue_file_prefix += "cat";
+                    else if (__instance is Dog) dialogue_file_prefix += "dog";
+                    __result = LoadDialogue(dialogue_file_prefix + "_Fallback");
                 }
             }
         }
