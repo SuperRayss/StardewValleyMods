@@ -55,8 +55,9 @@ namespace TalkingPets
             List<Pet> pets = GetPetList();
             while (catDialogue.Count > 0 || dogDialogue.Count > 0 || bothDialogue.Count > 0)
             {
-                // TODO: Make sure that repeated key conflicts don't result in an indefinite hangup
-                // Ideally just don't write any repeated keys within an animal type (or between the type and both)
+                var catCount = catDialogue.Count;
+                var dogCount = dogDialogue.Count;
+                var bothCount = bothDialogue.Count;
                 foreach (Pet pet in pets)
                 {
                     string name = pet.Name;
@@ -82,6 +83,19 @@ namespace TalkingPets
                         if (petDialogue[name].TryAdd(entry.Item1, entry.Item2))
                             bothDialogue.Pop();
                     }
+                }
+                // Stops an infinite loop from happening if no pet can allocate any more dialogue, but more dialogue exists
+                // Such as in the case of having only one pet type, so the other pet type never exhausts its dialogue stack
+                // Should also prevent conflicts if dialogue_both.json and dialogue_(type).json have the same key
+                // There may exist a possible bug with this if there's only one pet where the loop exits before allocating 
+                // all dialogue, but I need to test further for that
+                if ( 
+                    catDialogue.Count == catCount && 
+                    dogDialogue.Count == dogCount && 
+                    bothDialogue.Count == bothCount
+                    )
+                {
+                    break;
                 }
             }
         }
