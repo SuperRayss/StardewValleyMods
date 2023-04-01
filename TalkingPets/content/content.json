@@ -4,14 +4,20 @@
     {
       "LogName": "Dialogue c_fb",
       "Action": "Load",
-      "Target": "Characters/Dialogue/Pet/cat_Fallback",
+      "Target": "Characters/Dialogue/Pet/Cat",
       "FromFile": "assets/src/dialogue_cat.json"
     },
     {
       "LogName": "Dialogue d_fb",
       "Action": "Load",
-      "Target": "Characters/Dialogue/Pet/dog_Fallback",
+      "Target": "Characters/Dialogue/Pet/Dog",
       "FromFile": "assets/src/dialogue_dog.json"
+    },
+    {
+      "LogName": "Dialogue b_fb",
+      "Action": "Load",
+      "Target": "Characters/Dialogue/Pet/Both",
+      "FromFile": "assets/src/dialogue_both.json"
     },
     {
       "LogName": "Gift Tastes",

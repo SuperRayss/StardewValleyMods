@@ -1,7 +1,7 @@
 {
   "Name": "Talking Pets",
   "Author": "SuperRayss",
-  "Version": "0.5.0",
+  "Version": "0.6.0",
   "Description": "BARK BARK RUFF RUFF MEEEEOOOOWWWW",
   "UniqueID": "SuperRayss.TalkingPets",
   "EntryDll": "TalkingPets.dll",

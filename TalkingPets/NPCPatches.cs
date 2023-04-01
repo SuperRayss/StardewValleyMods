@@ -1,12 +1,8 @@
 ﻿using HarmonyLib;
-using Microsoft.Xna.Framework.Content;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Characters;
-using StardewValley.Monsters;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace TalkingPets
 {
@@ -29,49 +25,22 @@ namespace TalkingPets
 #if DEBUG
                 //Monitor.Log($"Patching Dialogue_get:\n", LogLevel.Debug); // DEBUG
 #endif
-                string dialogue_file_prefix = "Characters\\Dialogue\\Pet\\";
-                string dialogue_file = dialogue_file_prefix + __instance.GetDialogueSheetName();
-                if (NPC.invalidDialogueFiles.Contains(dialogue_file))
+                if (PetDialogue.petDialogue == null) // If dialogue has not been loaded from JSON yet
                 {
-                    __result = new Dictionary<string, string>();
+                    PetDialogue.LoadDialogueJSON();
+                    PetDialogue.SetDialogue();
                 }
-                try
+                if (PetDialogue.petDialogue.TryGetValue(__instance.Name, out Dictionary<string, string> dialogue))
                 {
-                    __result = LoadDialogue(dialogue_file);
-                }
-                catch (ContentLoadException ex)
+                    __result = dialogue;
+                } else // If this pet has not been added yet
                 {
-#if DEBUG
-                    //Monitor.Log($"Failed in Dialogue_get:\n{ex}", LogLevel.Error); // DEBUG
-#endif
-                    NPC.invalidDialogueFiles.Add(dialogue_file);
-                    if (__instance is Cat) dialogue_file_prefix += "cat";
-                    else if (__instance is Dog) dialogue_file_prefix += "dog";
-                    __result = LoadDialogue(dialogue_file_prefix + "_Fallback");
+                    PetDialogue.SetDialogue();
+                    Postfix(__instance, ref __result);
                 }
             }
         }
 
-        public static Dictionary<string, string> LoadDialogue(string dialogue_file)
-        {
-            return Game1.content.Load<Dictionary<string, string>>(dialogue_file).Select(delegate (KeyValuePair<string, string> pair)
-            {
-                string key = pair.Key;
-                string text = pair.Value;
-                if (text.Contains("¦"))
-                {
-                    if (Game1.player.IsMale)
-                    {
-                        text = text.Substring(0, text.IndexOf("¦"));
-                    }
-                    else
-                    {
-                        text = text.Substring(text.IndexOf("¦") + 1);
-                    }
-                }
-                return new KeyValuePair<string, string>(key, text);
-            }).ToDictionary((KeyValuePair<string, string> p) => p.Key, (KeyValuePair<string, string> p) => p.Value);
-        }
     }
 
 }
