@@ -7,18 +7,17 @@ using System.Linq;
 
 namespace TalkingPets
 {
-    public class PetDialogue
+    internal class PetDialogue
     {
         private static Dictionary<string, string> catDialogue_;
         private static Dictionary<string, string> dogDialogue_;
         private static Dictionary<string, string> bothDialogue_;
 
         internal static Dictionary<string, Dictionary<string, string>> petDialogue = null;
-        internal static List<string> petNames = null;
 
         private static IMonitor Monitor;
 
-        public static void Initialize(IMonitor monitor)
+        internal static void Initialize(IMonitor monitor)
         {
             Monitor = monitor;
         }
@@ -34,9 +33,7 @@ namespace TalkingPets
 
         internal static void SetDialogue()
         {
-            //Monitor.Log($"Loading petDialogue", LogLevel.Debug); // DEBUG
             petDialogue = new();
-            petNames = new();
             var catDialogue = new Stack<Tuple<string, string>>();
             var dogDialogue = new Stack<Tuple<string, string>>();
             var bothDialogue = new Stack<Tuple<string, string>>();
@@ -63,7 +60,7 @@ namespace TalkingPets
                     string name = pet.Name;
                     if (!petDialogue.ContainsKey(name)) {
                         petDialogue.Add(name, new Dictionary<string, string>());
-                        petNames.Add(name);
+                        Game1.NPCGiftTastes.Add(name, Game1.NPCGiftTastes["_" + pet.GetType().Name]);
                     }
                     if (pet is Cat && catDialogue.Count > 0)
                     {
@@ -134,17 +131,18 @@ namespace TalkingPets
                     {
                         if (Game1.player.IsMale)
                         {
-                            text = text.Substring(0, text.IndexOf("¦"));
+                            text = text[..text.IndexOf("¦")];
                         }
                         else
                         {
-                            text = text.Substring(text.IndexOf("¦") + 1);
+                            text = text[(text.IndexOf("¦") + 1)..];
                         }
                     }
                     return new KeyValuePair<string, string>(key, text);
                 })
                 .ToDictionary((KeyValuePair<string, string> p) => p.Key, (KeyValuePair<string, string> p) => p.Value);
         }
+
     }
 
 }

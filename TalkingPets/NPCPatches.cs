@@ -8,7 +8,7 @@ namespace TalkingPets
 {
     [HarmonyPatch(typeof(NPC))]
     [HarmonyPatch("Dialogue", MethodType.Getter)]
-    public class NPCPatches
+    public class NPCPatches_Dialogue_get
     {
         private static IMonitor Monitor;
 
@@ -18,6 +18,8 @@ namespace TalkingPets
         }
 
         // Patches Dialogue_get to accept pets as having dialogue
+        // TODO: Patch this.dialogue the way it works in the original member
+        // TODO: Add patch for setter
         public static void Postfix(NPC __instance, ref Dictionary<string, string> __result)
         {
             if (__instance is Pet)

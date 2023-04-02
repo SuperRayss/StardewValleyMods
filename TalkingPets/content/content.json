@@ -24,13 +24,8 @@
       "Action": "EditData",
       "Target": "Data/NPCGiftTastes",
       "Entries": {
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=0}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=1}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=2}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=3}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=4}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=5}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
-        "{{SuperRayss.TalkingPets/PetNames |valueAt=6}}": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/"
+        "_Dog": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/",
+        "_Cat": "I love it!/207 232 233 400/I like it./-5 -79 422/...Oh no.../80 330/EWW!!! EWWWWWW!!!!!!!!/2/Thanks./-4/"
       }
     }
   ]

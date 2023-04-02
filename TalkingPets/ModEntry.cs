@@ -8,31 +8,26 @@ namespace TalkingPets
     public class ModEntry : Mod
     {
 
-        // TODO: There are currently bugs:
-        // 1. Gift tastes seem out of whack for some types, this is an issue with the content patcher setup
-        // The best approach will be to patch the gift tastes members the same way as dialogue
         public override void Entry(IModHelper helper)
         {
-            helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+            Initialize();
             helper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
-            NPCPatches.Initialize(Monitor);
-            PetDialogue.Initialize(Monitor);
             var harmony = new Harmony(ModManifest.UniqueID);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
-        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+        private void Initialize()
         {
-            var api = this.Helper.ModRegistry.GetApi<IContentPatcherAPI>("Pathoschild.ContentPatcher");
-            api.RegisterToken(this.ModManifest, "PetNames", () =>
-            {
-                return PetDialogue.petNames; // Will return null if not initialized, which is fine
-            });
+            NPCPatches_Dialogue_get.Initialize(Monitor);
+            PetDialogue.Initialize(Monitor);
+            PetPatches_checkAction.Initialize(Monitor); // TODO: Clean this up, make a global Monitor, maybe just make ModEntry a singleton class(?)
+/*            PetPatches_tryToReceiveActiveObject.Initialize(Monitor);
+            PetPatches_receiveGift.Initialize(Monitor);
+            PetPatches_getGiftTasteForThisItem.Initialize(Monitor);*/
         }
 
         private void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs e)
         {
-            PetDialogue.petNames?.Clear();
             PetDialogue.petDialogue?.Clear();
         }
 
